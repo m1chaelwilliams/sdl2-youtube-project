@@ -8,7 +8,7 @@
 #endif
 
 void App::on_load() {
-    sm.add_scene(0, new MainScene(renderer_ptr, &sm, &cm));
+    sm.add_scene(0, new MainScene(renderer_ptr, &sm, &cm, &eh));
     sm.set_scene(0);
 
     sm.get_scene()->on_load();
@@ -19,18 +19,9 @@ void App::on_unload() {
 }
 
 void App::update() {
-    SDL_Event e;
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            running = false;
-            break;
-        }
-        if (e.type == SDL_KEYDOWN) {
-            if (e.key.keysym.sym == SDLK_q) {
-                running = false;
-                break;
-            }
-        }
+    eh.poll_events();
+    if (eh.is_close_requested() || eh.is_key_pressed(SDLK_q)) {
+        running = false;
     }
 
     sm.get_scene()->update();
@@ -166,5 +157,5 @@ App::~App() {
     SDL_DestroyWindow(window_ptr);
     SDL_Quit();
     IMG_Quit();
-
+    TTF_Quit();
 }

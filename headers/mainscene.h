@@ -12,7 +12,8 @@ public:
     MainScene(
         SDL_Renderer* renderer_ptr,
         SceneManager* sm,
-        ContentManager* cm
+        ContentManager* cm,
+        EventHandler* eh
     );
     ~MainScene() override;
     void on_load() override;

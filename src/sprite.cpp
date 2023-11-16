@@ -21,7 +21,7 @@ Sprite::~Sprite() {
 #endif
 }
 
-void Sprite::update() {
+void Sprite::update(EventHandler* eh) {
     
 }
 

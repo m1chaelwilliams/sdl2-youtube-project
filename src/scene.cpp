@@ -7,10 +7,12 @@
 Scene::Scene(
     SDL_Renderer* renderer_ptr, 
     SceneManager* sm, 
-    ContentManager* cm
+    ContentManager* cm,
+    EventHandler* eh
 ) : renderer_ptr(renderer_ptr), 
     sm(sm), 
-    cm(cm) 
+    cm(cm),
+    eh(eh)
 {
 #ifdef DEBUG
     std::cout << "Scene object created!" << std::endl;

@@ -7,6 +7,7 @@
 #include <vector>
 #include "scene.h"
 #include "mainscene.h"
+#include "eventhandler.h"
 #include "scenemanager.h"
 #include "contentmanager.h"
 
@@ -41,6 +42,7 @@ private:
 
     SceneManager sm;
     ContentManager cm;
+    EventHandler eh;
 };
 
 #endif

@@ -4,10 +4,16 @@
 #include <SDL2/SDL.h>
 #include "scenemanager.h"
 #include "contentmanager.h"
+#include "eventhandler.h"
 
 class Scene {
     public:
-        Scene(SDL_Renderer* renderer_ptr, SceneManager* sm, ContentManager* cm);
+        Scene(
+            SDL_Renderer* renderer_ptr, 
+            SceneManager* sm, 
+            ContentManager* cm,
+            EventHandler* eh
+        );
         virtual ~Scene();
         virtual void on_load();
         virtual void on_unload();
@@ -16,6 +22,7 @@ class Scene {
     protected:
         SceneManager* sm;
         ContentManager* cm;
+        EventHandler* eh;
         SDL_Texture* texture;
         SDL_Renderer* renderer_ptr;
 };

@@ -14,8 +14,13 @@ Player::Player(
 
 }
 
-void Player::update() {
-    Sprite::update();
+void Player::update(EventHandler* eh) {
+    Sprite::update(eh);
 
-    rect.x += 1;
+    if (eh->is_key_down(SDLK_RIGHT)) {
+        rect.x += 1;
+    }
+    if (eh->is_key_pressed(SDLK_LEFT)) {
+        rect.x += 1;
+    }
 }

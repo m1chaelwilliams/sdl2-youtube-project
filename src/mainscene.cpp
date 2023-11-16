@@ -6,8 +6,9 @@
 MainScene::MainScene(
     SDL_Renderer* renderer_ptr,
     SceneManager* sm,
-    ContentManager* cm
-) : Scene(renderer_ptr, sm, cm) 
+    ContentManager* cm,
+    EventHandler* eh
+) : Scene(renderer_ptr, sm, cm, eh) 
 {
 }
 
@@ -36,7 +37,7 @@ void MainScene::on_load() {
 
     // load fonts test
 
-    font = TTF_OpenFont("assets/FiraCodeNerdFontPropo-Medium.ttf", 24);
+    font = cm->load_font("assets/FiraCodeNerdFontPropo-Medium.ttf", 24, "fira");
 
     SDL_Color black{0,0,0,0};
 
@@ -57,7 +58,7 @@ void MainScene::update() {
     Scene::update();
 
     for (Sprite* sprite : sprites) {
-        sprite->update();
+        sprite->update(eh);
     }
 }
 

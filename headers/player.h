@@ -10,7 +10,7 @@ public:
         SDL_Rect rect, 
         SDL_Rect source_rect
     );
-    void update() override;
+    void update(EventHandler* eh) override;
 };
 
 #endif

@@ -18,6 +18,14 @@ ContentManager::~ContentManager() {
         SDL_DestroyTexture(texture.second);
     }
     textures.clear();
+
+    for (auto& font : fonts) {
+#ifdef DEBUG
+        std::cout << "Destroying font: " << font.first << std::endl;
+#endif
+        TTF_CloseFont(font.second);
+    }
+    fonts.clear();
 }
 
 SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, SDL_Surface* surf, const char* name, bool free_surf) {
@@ -68,8 +76,9 @@ SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char
 }
 
 SDL_Texture* ContentManager::get_texture(const char* key) {
-    if (textures.find(key) != textures.end()) {
-        return textures[key];
+    auto it = textures.find(key);
+    if (it != textures.end()) {
+        return it->second;
     }
     return nullptr;
 }
@@ -91,3 +100,36 @@ SDL_Rect ContentManager::get_rect(const char* filename) {
     return rect;
 }
 
+// fonts
+
+TTF_Font* ContentManager::load_font(const char* filename, int size, const char* name) {
+    TTF_Font* font = TTF_OpenFont(filename, size);
+
+    if (!font) {
+#ifdef DEBUG
+        std::cout << "Failed to open font: " << filename << std::endl;
+#endif
+        return nullptr;
+    }
+
+    const char* key = "";
+
+    if (name) {
+        key = name;
+    } else {
+        name = filename;
+    }
+
+    fonts[key] = font;
+
+    return font;
+}
+
+TTF_Font* ContentManager::get_font(const char* name) {
+    auto it = fonts.find(name);
+
+    if (it != fonts.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
