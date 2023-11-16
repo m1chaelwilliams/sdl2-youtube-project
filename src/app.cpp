@@ -8,9 +8,14 @@
 #endif
 
 void App::on_load() {
-    texture = load_texture("assets/player_static.png");
+    sm.add_scene(0, new Scene(renderer_ptr, &sm, &cm));
+    sm.set_scene(0);
+
+    sm.get_scene()->on_load();
 }
-void App::on_unload() {}
+void App::on_unload() {
+    sm.get_scene()->on_unload();
+}
 void App::update() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -25,16 +30,14 @@ void App::update() {
             }
         }
     }
+
+    sm.get_scene()->update();
 }
 void App::draw() {
     SDL_SetRenderDrawColor(renderer_ptr, 120, 180, 255, 255);
     SDL_RenderClear(renderer_ptr);
 
-    SDL_Rect test_rect{10,10,100,100};
-    SDL_SetRenderDrawColor(renderer_ptr, 255, 0, 0, 255);
-    SDL_RenderFillRect(renderer_ptr, &test_rect);
-
-    SDL_RenderCopy(renderer_ptr, texture, nullptr, &test_rect);
+    sm.get_scene()->draw();
 
     SDL_RenderPresent(renderer_ptr);
 
@@ -151,29 +154,7 @@ App::~App() {
     SDL_DestroyWindow(window_ptr);
     SDL_Quit();
     IMG_Quit();
-}
-
-// utils
-
-SDL_Texture* App::load_texture(const char* filename) {
-    SDL_Surface* surf = IMG_Load(filename);
-
-    if (!surf) {
 #ifdef DEBUG
-        std::cout << "Failed to load image: " << filename << std::endl; 
+    std::cout << "App destruction complete!" << std::endl;
 #endif
-        return nullptr;
-    }
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer_ptr, surf);
-    SDL_FreeSurface(surf);
-
-    if (!texture) {
-#ifdef DEBUG
-        std::cout << "Failed to create texture: " << filename << std::endl;
-#endif
-        return nullptr;
-    }
-
-    return texture;
 }

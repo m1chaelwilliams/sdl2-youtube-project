@@ -4,6 +4,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include "scene.h"
+#include "scenemanager.h"
+#include "contentmanager.h"
 
 class App {
 private:
@@ -20,9 +23,6 @@ private:
     void on_unload();
     void update();
     void draw();
-
-    // utils
-    SDL_Texture* load_texture(const char* filename);
 public:
     App(
         int width = 600,
@@ -36,6 +36,9 @@ private:
     SDL_Renderer* renderer_ptr;
 
     std::vector<SDL_Texture*> texture_pool;
+
+    SceneManager sm;
+    ContentManager cm;
 };
 
 #endif
