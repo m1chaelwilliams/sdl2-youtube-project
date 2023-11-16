@@ -8,12 +8,12 @@
 class Scene {
     public:
         Scene(SDL_Renderer* renderer_ptr, SceneManager* sm, ContentManager* cm);
-        ~Scene();
+        virtual ~Scene();
         virtual void on_load();
         virtual void on_unload();
         virtual void update();
         virtual void draw();
-    private:
+    protected:
         SceneManager* sm;
         ContentManager* cm;
         SDL_Texture* texture;

@@ -8,14 +8,16 @@
 #endif
 
 void App::on_load() {
-    sm.add_scene(0, new Scene(renderer_ptr, &sm, &cm));
+    sm.add_scene(0, new MainScene(renderer_ptr, &sm, &cm));
     sm.set_scene(0);
 
     sm.get_scene()->on_load();
 }
+
 void App::on_unload() {
     sm.get_scene()->on_unload();
 }
+
 void App::update() {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -33,6 +35,7 @@ void App::update() {
 
     sm.get_scene()->update();
 }
+
 void App::draw() {
     SDL_SetRenderDrawColor(renderer_ptr, 120, 180, 255, 255);
     SDL_RenderClear(renderer_ptr);
@@ -46,6 +49,7 @@ void App::draw() {
 
 int App::run() {
 #ifdef DEBUG
+    std::cout << "--------------------" << std::endl;
     std::cout << "Initializing..." << std::endl;
 #endif
 
@@ -55,9 +59,7 @@ int App::run() {
 
 #ifdef DEBUG
     std::cout << "Initializing successful!" << std::endl;
-#endif
-
-#ifdef DEBUG
+    std::cout << "--------------------" << std::endl;
     std::cout << "`on_load` executing..." << std::endl;
 #endif
 
@@ -65,6 +67,7 @@ int App::run() {
 
 #ifdef DEBUG
     std::cout << "`on_load` successful!" << std::endl;
+    std::cout << "--------------------" << std::endl;
     std::cout << "Enter main loop..." << std::endl;
 #endif
 
@@ -75,6 +78,7 @@ int App::run() {
 
 #ifdef DEBUG
     std::cout << "Exiting main loop..." << std::endl;
+    std::cout << "--------------------" << std::endl;
     std::cout << "`on_unload` executing..." << std::endl;
 #endif
 
@@ -82,6 +86,7 @@ int App::run() {
 
 #ifdef DEBUG
     std::cout << "`on_unload` successful!" << std::endl;
+    std::cout << "--------------------" << std::endl;
 #endif
 
     return 0;
@@ -95,6 +100,10 @@ bool App::init() {
     }
 
     if (IMG_Init(IMG_INIT_PNG) < 0) {
+        return INIT_FAIL;
+    }
+
+    if (TTF_Init() < 0) {
         return INIT_FAIL;
     }
 
@@ -137,12 +146,15 @@ App::App(
     running(true)
 {
 #ifdef DEBUG
+    std::cout << "--------------------" << std::endl;
     std::cout << "App constructed!" << std::endl;
+    
 #endif
 }
 
 App::~App() {
 #ifdef DEBUG
+    std::cout << "--------------------" << std::endl;
     std::cout << "App Destructing..." << std::endl;
 #endif
     for (auto& texture : texture_pool) {
@@ -154,7 +166,5 @@ App::~App() {
     SDL_DestroyWindow(window_ptr);
     SDL_Quit();
     IMG_Quit();
-#ifdef DEBUG
-    std::cout << "App destruction complete!" << std::endl;
-#endif
+
 }

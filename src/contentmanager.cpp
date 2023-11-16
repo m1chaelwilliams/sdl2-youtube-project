@@ -20,6 +20,17 @@ ContentManager::~ContentManager() {
     textures.clear();
 }
 
+SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, SDL_Surface* surf, const char* name, bool free_surf) {
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer_ptr, surf);
+    textures[name] = texture;
+
+    if (free_surf) {
+        SDL_FreeSurface(surf);
+    }
+
+    return texture;
+}
+
 SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char* filename, const char* name) {
     SDL_Surface* surf = IMG_Load(filename);
 
