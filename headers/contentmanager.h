@@ -29,6 +29,8 @@ public:
     // fonts
     TTF_Font* load_font(const char* filename, int size, const char* name = "");
     TTF_Font* get_font(const char* name);
+
+    void free_all();
 private:
     std::map<std::string, SDL_Texture*> textures;
     std::map<std::string, TTF_Font*> fonts;

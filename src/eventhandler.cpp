@@ -1,6 +1,15 @@
 #include "eventhandler.h"
 
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 EventHandler::EventHandler() {}
+EventHandler::~EventHandler() {
+#ifdef DEBUG
+    std::cout << "Destructing EventHandler..." << std::endl;
+#endif
+}
 
 void EventHandler::poll_events() {
     events.clear();

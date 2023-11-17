@@ -3,10 +3,6 @@
 #define INIT_SUCCESS true
 #define INIT_FAIL false
 
-#ifdef DEBUG
-#include <iostream>
-#endif
-
 void App::on_load() {
     sm.add_scene(0, new MainScene(renderer_ptr, &sm, &cm, &eh));
     sm.set_scene(0);
@@ -39,46 +35,35 @@ void App::draw() {
 }
 
 int App::run() {
-#ifdef DEBUG
-    std::cout << "--------------------" << std::endl;
-    std::cout << "Initializing..." << std::endl;
-#endif
+    LOG("Initializing...");
 
     if (!init()) {
         return -1;
     }
 
-#ifdef DEBUG
-    std::cout << "Initializing successful!" << std::endl;
-    std::cout << "--------------------" << std::endl;
-    std::cout << "`on_load` executing..." << std::endl;
-#endif
+    LOG("Initializing successful!");
+    LOG("--------------------");
+    LOG("`on_load` executing...");
 
     on_load();
 
-#ifdef DEBUG
-    std::cout << "`on_load` successful!" << std::endl;
-    std::cout << "--------------------" << std::endl;
-    std::cout << "Enter main loop..." << std::endl;
-#endif
+    LOG("`on_load` successful!");
+    LOG("--------------------");
+    LOG("Enter main loop...");
 
     while (running) {
         update();
         draw();
     }
 
-#ifdef DEBUG
-    std::cout << "Exiting main loop..." << std::endl;
-    std::cout << "--------------------" << std::endl;
-    std::cout << "`on_unload` executing..." << std::endl;
-#endif
+    LOG("Exiting main loop...");
+    LOG("--------------------");
+    LOG("`on_unload` executing...");
 
     on_unload();
 
-#ifdef DEBUG
-    std::cout << "`on_unload` successful!" << std::endl;
-    std::cout << "--------------------" << std::endl;
-#endif
+    LOG("`on_unload` successful!");
+    LOG("--------------------");
 
     return 0;
 }
@@ -136,26 +121,27 @@ App::App(
     renderer_ptr(nullptr),
     running(true)
 {
-#ifdef DEBUG
-    std::cout << "--------------------" << std::endl;
-    std::cout << "App constructed!" << std::endl;
-    
-#endif
+    LOG("--------------------");
+    LOG("App constructed!");
 }
 
 App::~App() {
-#ifdef DEBUG
-    std::cout << "--------------------" << std::endl;
-    std::cout << "App Destructing..." << std::endl;
-#endif
-    for (auto& texture : texture_pool) {
-        SDL_DestroyTexture(texture);
-    }
-    texture_pool.clear();
+    LOG("--------------------");
+    LOG("App Destructing...");
+
+    cm.free_all();
 
     SDL_DestroyRenderer(renderer_ptr);
     SDL_DestroyWindow(window_ptr);
     SDL_Quit();
+    
+    LOG("Quit SDL2");
+
     IMG_Quit();
+
+    LOG("Quit SDL2_IMG");
+
     TTF_Quit();
+
+    LOG("Quit SDL2_TTF");
 }

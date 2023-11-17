@@ -9,8 +9,14 @@ ContentManager::~ContentManager() {
         std::cout << "Destructing ContentManager..." << std::endl << std::endl;
 #endif
 
-    for (auto& texture : textures) {
 
+}
+
+void ContentManager::free_all() {
+#ifdef DEBUG
+    std::cout << "Freeing all content in ContentManager (cm)" << std::endl;
+#endif
+    for (auto& texture : textures) {
 #ifdef DEBUG
         std::cout << "Destroying texture: " << texture.first << std::endl;
 #endif
@@ -117,7 +123,7 @@ TTF_Font* ContentManager::load_font(const char* filename, int size, const char* 
     if (name) {
         key = name;
     } else {
-        name = filename;
+        key = filename;
     }
 
     fonts[key] = font;

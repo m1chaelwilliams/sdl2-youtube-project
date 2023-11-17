@@ -1,22 +1,23 @@
 #ifndef APP_H
 #define APP_H
 
+#ifdef DEBUG
+#include "debugutils.h"
+#endif
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "scene.h"
 #include "mainscene.h"
+#include "testscene.h"
 #include "eventhandler.h"
 #include "scenemanager.h"
 #include "contentmanager.h"
 
 class App {
 private:
-    // temp
-    SDL_Texture* texture;
-    // end temp
-
     bool running;
     int width, height;
     const char* title;
@@ -37,8 +38,6 @@ public:
 private:
     SDL_Window* window_ptr;
     SDL_Renderer* renderer_ptr;
-
-    std::vector<SDL_Texture*> texture_pool;
 
     SceneManager sm;
     ContentManager cm;
