@@ -1,10 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
-#ifdef DEBUG
 #include "debugutils.h"
-#endif
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
