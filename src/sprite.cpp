@@ -1,8 +1,6 @@
 #include "sprite.h"
 
-#ifdef DEBUG
-#include <iostream>
-#endif
+#include "debugutils.h"
 
 Sprite::Sprite(
     SDL_Texture* texture,
@@ -16,9 +14,7 @@ Sprite::Sprite(
 }
 
 Sprite::~Sprite() {
-#ifdef DEBUG
-    std::cout << "Deallocating sprite!" << std::endl;
-#endif
+    LOG("Deallocating sprite!");
 }
 
 void Sprite::update(EventHandler* eh) {

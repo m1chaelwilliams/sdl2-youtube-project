@@ -1,67 +1,60 @@
 #include "scenemanager.h"
 #include "scene.h"
 
-#ifdef DEBUG
-#include <iostream>
-#endif
+#include "debugutils.h"
 
 SceneManager::SceneManager() {}
 SceneManager::~SceneManager() {
 
-#ifdef DEBUG
-        std::cout << "Destructing Scene Manager..." << std::endl << std::endl;
-#endif
+    LOG("Destructing Scene Manager...");
 
     for (auto& scene : scenes) {
+        LOG("Destroying scene: " << scene.first);
 
-#ifdef DEBUG
-        std::cout << "Destroying scene: " << scene.first << std::endl;
-#endif
         delete scene.second;
     }
     scenes.clear();
 }
 
-void SceneManager::add_scene(int scene_id, Scene* scene) {
+void SceneManager::add_scene(int scene_id, IScene* scene) {
     remove_scene(scene_id);
     scenes[scene_id] = scene;
 
 #ifdef DEBUG
-    std::cout << "Added scene: " << scene_id << std::endl;
+    LOG("Added scene: " << scene_id);
 
-    std::cout << "Scenes in App:" << std::endl;
+    LOG("Scenes in App:");
     for (const auto& scene : scenes) {
-        std::cout << scene.first << std::endl;
+        LOG(scene.first);
     }
 #endif
 }
 
 void SceneManager::remove_scene(int scene_id) {
-#ifdef DEBUG
-    std::cout << "Removing scene: " << scene_id << std::endl;
-#endif
+    LOG("Removing scene: ");
     if (scenes.find(scene_id) != scenes.end()) {
         delete scenes[scene_id];
         scenes.erase(scene_id);
     }
+
+    LOG("Remaining scenes");
 #ifdef DEBUG
-    std::cout << "Remaining scenes" << std::endl;
     for (const auto& scene : scenes) {
-        std::cout << scene.first << std::endl;
+        LOG(scene.first);
     }
 #endif
 }
 
-Scene* SceneManager::pop(int scene_id) {
+IScene* SceneManager::pop(int scene_id) {
     if (scenes.find(scene_id) != scenes.end()) {
-        Scene* scene = scenes[scene_id];
+        IScene* scene = scenes[scene_id];
         scenes.erase(scene_id);
         return scene;
     }
     return nullptr;
 }
 
-Scene* SceneManager::get_scene() {
+IScene* SceneManager::get_scene() {
     return scenes[active_scene];
 }
 

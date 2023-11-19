@@ -1,34 +1,27 @@
 #include "contentmanager.h"
 
-#ifdef DEBUG
-#include <iostream>
-#endif
+#include "debugutils.h"
 
 ContentManager::~ContentManager() {
-#ifdef DEBUG
-        std::cout << "Destructing ContentManager..." << std::endl << std::endl;
-#endif
-
-
+    LOG("Destructing ContentManager...");
 }
 
 void ContentManager::free_all() {
-#ifdef DEBUG
-    std::cout << "Freeing all content in ContentManager (cm)" << std::endl;
-#endif
+    
+    LOG("Freeing all content in ContentManager (cm)");
+
     for (auto& texture : textures) {
-#ifdef DEBUG
-        std::cout << "Destroying texture: " << texture.first << std::endl;
-#endif
+
+        LOG("Destroying texture: " << texture.second);
 
         SDL_DestroyTexture(texture.second);
     }
     textures.clear();
 
     for (auto& font : fonts) {
-#ifdef DEBUG
-        std::cout << "Destroying font: " << font.first << std::endl;
-#endif
+        
+        LOG("Destroying font: " << font.first);
+
         TTF_CloseFont(font.second);
     }
     fonts.clear();
@@ -49,9 +42,8 @@ SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char
     SDL_Surface* surf = IMG_Load(filename);
 
     if (!surf) {
-#ifdef DEBUG
-        std::cout << "Failed to load surface: " << filename << std::endl;
-#endif
+        LOG("Failed to load surface: " << filename);
+
         return nullptr; 
     }
 
@@ -59,9 +51,8 @@ SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char
     SDL_FreeSurface(surf);
 
     if (!texture) {
-#ifdef DEBUG
-        std::cout << "Failed to load texture: " << filename << std::endl;
-#endif
+        LOG("Failed to load texture: " << filename);
+
         return nullptr;
     }
 
@@ -74,9 +65,7 @@ SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char
 
     textures[key] = texture; 
 
-#ifdef DEBUG
-    std::cout << "Loaded texture: " << key << " successfully!" << std::endl;
-#endif
+    LOG("Loaded texture: " << key << " successfully!");
 
     return texture;
 }
@@ -112,9 +101,8 @@ TTF_Font* ContentManager::load_font(const char* filename, int size, const char* 
     TTF_Font* font = TTF_OpenFont(filename, size);
 
     if (!font) {
-#ifdef DEBUG
-        std::cout << "Failed to open font: " << filename << std::endl;
-#endif
+        LOG("Failed to open font: " << filename);
+
         return nullptr;
     }
 

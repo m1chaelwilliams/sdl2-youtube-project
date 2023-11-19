@@ -3,20 +3,20 @@
 
 #include <map>
 
-class Scene;
+class IScene;
 
 class SceneManager {
     public:
         SceneManager();
         ~SceneManager();
 
-        void add_scene(int scene_id, Scene* scene);
+        void add_scene(int scene_id, IScene* scene);
         void remove_scene(int scene_id);
-        Scene* pop(int scene_id);
-        Scene* get_scene();
+        IScene* pop(int scene_id);
+        IScene* get_scene();
         void set_scene(int scene_id);
     private:
-        std::map<int, Scene*> scenes;
+        std::map<int, IScene*> scenes;
 
         int active_scene;
 };

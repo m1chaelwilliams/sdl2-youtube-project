@@ -7,8 +7,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "scene.h"
-#include "mainscene.h"
-#include "testscene.h"
 #include "eventhandler.h"
 #include "scenemanager.h"
 #include "contentmanager.h"
@@ -20,10 +18,13 @@ private:
     const char* title;
 
     bool init();
-    void on_load();
-    void on_unload();
-    void update();
-    void draw();
+protected:
+    virtual void on_load() = 0;
+    virtual void on_unload() = 0;
+    virtual void update() = 0;
+    virtual void draw() = 0;
+
+    void close();
 public:
     App(
         int width = 600,
@@ -32,7 +33,7 @@ public:
     );
     ~App();
     int run();
-private:
+protected:
     SDL_Window* window_ptr;
     SDL_Renderer* renderer_ptr;
 

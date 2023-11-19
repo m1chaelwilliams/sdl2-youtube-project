@@ -1,24 +1,24 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef ISCENE_H
+#define ISCENE_H
 
 #include <SDL2/SDL.h>
 #include "scenemanager.h"
 #include "contentmanager.h"
 #include "eventhandler.h"
 
-class Scene {
+class IScene {
     public:
-        Scene(
+        IScene(
             SDL_Renderer* renderer_ptr, 
             SceneManager* sm, 
             ContentManager* cm,
             EventHandler* eh
         );
-        virtual ~Scene();
-        virtual void on_load();
-        virtual void on_unload();
-        virtual void update();
-        virtual void draw();
+        virtual ~IScene();
+        virtual void on_load() = 0;
+        virtual void on_unload() = 0;
+        virtual void update() = 0;
+        virtual void draw() = 0;
     protected:
         SceneManager* sm;
         ContentManager* cm;

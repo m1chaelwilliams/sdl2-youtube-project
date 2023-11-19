@@ -1,14 +1,10 @@
 #include "eventhandler.h"
 
-#ifdef DEBUG
-#include <iostream>
-#endif
+#include "debugutils.h"
 
 EventHandler::EventHandler() {}
 EventHandler::~EventHandler() {
-#ifdef DEBUG
-    std::cout << "Destructing EventHandler..." << std::endl;
-#endif
+    LOG("Destructing EventHandler...");
 }
 
 void EventHandler::poll_events() {

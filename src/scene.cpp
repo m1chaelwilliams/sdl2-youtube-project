@@ -1,10 +1,8 @@
 #include "scene.h"
 
-#ifdef DEBUG
-#include <iostream>
-#endif
+#include "debugutils.h"
 
-Scene::Scene(
+IScene::IScene(
     SDL_Renderer* renderer_ptr, 
     SceneManager* sm, 
     ContentManager* cm,
@@ -14,18 +12,9 @@ Scene::Scene(
     cm(cm),
     eh(eh)
 {
-#ifdef DEBUG
-    std::cout << "Scene object created!" << std::endl;
-#endif
+    LOG("Scene object created!");
 }
 
-Scene::~Scene() {
-#ifdef DEBUG
-    std::cout << "Scene object destructed!" << std::endl;
-#endif
+IScene::~IScene() {
+    LOG("Scene object destructed!");
 }
-
-void Scene::on_load() {}
-void Scene::on_unload() {}
-void Scene::update() {}
-void Scene::draw() {}

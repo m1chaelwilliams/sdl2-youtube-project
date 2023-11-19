@@ -1,6 +1,6 @@
 OUTPUTDIR = build
 OBJDIR = $(OUTPUTDIR)/objects
-PROJECTNAME = engine
+PROJECTNAME = ssdlengine
 SRCDIR = src
 SRC = $(wildcard src/*.cpp)
 OBJ = $(patsubst src/%.cpp, $(OUTPUTDIR)/objects/%.o, $(SRC))
@@ -10,7 +10,7 @@ INCLUDE_DIRS = -Iinclude -Iheaders
 LIB_DIR = -Llib
 LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
-CFLAGS = 
+CFLAGS = -DDEBUG
 
 DEBUG_FLAGS = -DDEBUG
 

@@ -3,35 +3,8 @@
 #define INIT_SUCCESS true
 #define INIT_FAIL false
 
-void App::on_load() {
-    sm.add_scene(0, new MainScene(renderer_ptr, &sm, &cm, &eh));
-    sm.set_scene(0);
-
-    sm.get_scene()->on_load();
-}
-
-void App::on_unload() {
-    sm.get_scene()->on_unload();
-}
-
-void App::update() {
-    eh.poll_events();
-    if (eh.is_close_requested() || eh.is_key_pressed(SDLK_q)) {
-        running = false;
-    }
-
-    sm.get_scene()->update();
-}
-
-void App::draw() {
-    SDL_SetRenderDrawColor(renderer_ptr, 120, 180, 255, 255);
-    SDL_RenderClear(renderer_ptr);
-
-    sm.get_scene()->draw();
-
-    SDL_RenderPresent(renderer_ptr);
-
-    SDL_Delay(16);
+void App::close() {
+    running = false;
 }
 
 int App::run() {
