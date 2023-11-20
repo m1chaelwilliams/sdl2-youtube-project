@@ -57,4 +57,4 @@ Depending on your project structure, this command can vary quite a bit. As long 
 
 # Documentation (WIP)
 
-The documentation can be found [here](documentation/app.md).
+The documentation can be found [here](documentation/table-of-contents.md).
