@@ -23,18 +23,20 @@ Download all the dependencies and set them up accordingly.
 A typicall folder structure would look like:
 
 ```
-root:
-->build
---> <all_your_dlls>
-->headers
---> <all_your_headers>
-->include
---> <all_header_files>
-->lib
---> <all_your_libs.a>
-->src
--->main.cpp
-->Makefile
+.
+├── build/
+│   └── <your_dlls>
+├── headers/
+│   └── <your_headers>
+├── include/
+│   ├── <se_headers>
+│   └── <dependency_headers>
+├── lib/
+│   ├── <se_lib>
+│   └── <dependency_libs>
+├── src/
+│   └── <your_source_files>
+└── Makefile
 ```
 
 ## Compiling your program
