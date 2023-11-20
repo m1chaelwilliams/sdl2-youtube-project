@@ -3,7 +3,7 @@
 First, follow the [installation](../README.md#install) and [compilation](../README.md#compiling-your-program) instructions. If all goes well:
 
 main.cpp:
-```
+```cpp
 #include <app.h>
 
 int main(int argc, char* argv[]) {
@@ -84,8 +84,10 @@ public:
     ~MainScene() override;
     void on_load() override;
     void on_unload() override;
-    void update() override;
-    void draw() override;
+    void on_update() override;
+    void on_draw() override;
+    void on_scene_enter() override;
+    void on_scene_exit() override;
 private:
     std::vector<se::Sprite*> sprites;
 
@@ -107,6 +109,8 @@ void MainScene::on_load() {}
 void MainScene::on_unload() {}
 void MainScene::update() {}
 void MainScene::draw() {}
+void on_scene_enter() {}
+void on_scene_exit() {}
 MainScene::~MainScene() {}
 ```
 

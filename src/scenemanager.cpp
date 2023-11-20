@@ -6,22 +6,33 @@
 using namespace se;
 using namespace se::managers;
 
-SceneManager::SceneManager() {}
+SceneManager::SceneManager() {
+    active_scene = -1;
+    active_scene_ptr = nullptr;
+
+    LOG("Created Scene Manager!");
+}
 SceneManager::~SceneManager() {
 
     LOG("Destructing Scene Manager...");
 
+    active_scene_ptr->on_scene_exit();
+
     for (auto& scene : scenes) {
         LOG("Destroying scene: " << scene.first);
-
+        scene.second->on_unload();
         delete scene.second;
     }
     scenes.clear();
 }
 
 void SceneManager::add_scene(int scene_id, IScene* scene) {
+    // if scene alr exists, remove it
     remove_scene(scene_id);
     scenes[scene_id] = scene;
+    active_scene_ptr = scene;
+
+    active_scene_ptr->on_load();
 
 #ifdef DEBUG
     LOG("Added scene: " << scene_id);
@@ -35,8 +46,16 @@ void SceneManager::add_scene(int scene_id, IScene* scene) {
 
 void SceneManager::remove_scene(int scene_id) {
     LOG("Removing scene: ");
-    if (scenes.find(scene_id) != scenes.end()) {
-        delete scenes[scene_id];
+
+    auto it = scenes.find(scene_id);
+    if (it != scenes.end()) {
+
+        if (it->first == active_scene) {
+            active_scene_ptr->on_scene_exit();
+        }
+
+        it->second->on_unload();
+        delete it->second;
         scenes.erase(scene_id);
     }
 
@@ -49,8 +68,10 @@ void SceneManager::remove_scene(int scene_id) {
 }
 
 IScene* SceneManager::pop(int scene_id) {
-    if (scenes.find(scene_id) != scenes.end()) {
-        IScene* scene = scenes[scene_id];
+    auto it = scenes.find(scene_id);
+
+    if (it != scenes.end()) {
+        IScene* scene = it->second;
         scenes.erase(scene_id);
         return scene;
     }
@@ -58,11 +79,21 @@ IScene* SceneManager::pop(int scene_id) {
 }
 
 IScene* SceneManager::get_scene() {
-    return scenes[active_scene];
+    return active_scene_ptr;
 }
 
 void SceneManager::set_scene(int scene_id) {
-    if (scenes.find(scene_id) != scenes.end()) {
+    LOG("Set Scene! " << scene_id);
+
+    if (active_scene_ptr) {
+        active_scene_ptr->on_scene_exit();
+    }
+
+    auto it = scenes.find(scene_id);
+    if (it != scenes.end()) {
         active_scene = scene_id;
+        active_scene_ptr = it->second;
+
+        active_scene_ptr->on_scene_enter();
     }
 }

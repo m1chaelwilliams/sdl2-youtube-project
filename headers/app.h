@@ -15,10 +15,6 @@
 namespace se {
     class IApp {
         private:
-            static int screen_width;
-            static int screen_height;
-            static const char* title;
-
             bool running;
             int width, height;
             const char* title;

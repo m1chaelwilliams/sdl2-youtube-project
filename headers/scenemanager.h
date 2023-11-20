@@ -8,8 +8,6 @@ namespace se {
 }
 
 namespace se::managers {
-    
-
     class SceneManager {
         public:
             SceneManager();
@@ -24,6 +22,7 @@ namespace se::managers {
             std::map<int, IScene*> scenes;
 
             int active_scene;
+            IScene* active_scene_ptr;
     };
 }
 
