@@ -30,9 +30,8 @@ void SceneManager::add_scene(int scene_id, IScene* scene) {
     // if scene alr exists, remove it
     remove_scene(scene_id);
     scenes[scene_id] = scene;
-    active_scene_ptr = scene;
-
-    active_scene_ptr->on_load();
+    
+    scene->on_load();
 
 #ifdef DEBUG
     LOG("Added scene: " << scene_id);
@@ -46,6 +45,10 @@ void SceneManager::add_scene(int scene_id, IScene* scene) {
 
 void SceneManager::remove_scene(int scene_id) {
     LOG("Removing scene: ");
+    
+    if (!active_scene_ptr) {
+        return;
+    }
 
     auto it = scenes.find(scene_id);
     if (it != scenes.end()) {
@@ -86,6 +89,7 @@ void SceneManager::set_scene(int scene_id) {
     LOG("Set Scene! " << scene_id);
 
     if (active_scene_ptr) {
+        LOG("EXITING PREVIOUS SCENE");
         active_scene_ptr->on_scene_exit();
     }
 
@@ -94,6 +98,7 @@ void SceneManager::set_scene(int scene_id) {
         active_scene = scene_id;
         active_scene_ptr = it->second;
 
+        LOG("ENTERING NEW SCENE");
         active_scene_ptr->on_scene_enter();
     }
 }
