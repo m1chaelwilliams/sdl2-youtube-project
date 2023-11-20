@@ -25,6 +25,18 @@ void ContentManager::free_all() {
         TTF_CloseFont(font.second);
     }
     fonts.clear();
+
+    for (auto& m : music) {
+        LOG("Destroying music: " << m.first);
+
+        Mix_FreeMusic(m.second);
+    }
+
+    for (auto& c : sound_fx) {
+        LOG("Destroying sound fx " << c.second);
+
+        Mix_FreeChunk(c.second);
+    }
 }
 
 SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, SDL_Surface* surf, const char* name, bool free_surf) {
@@ -123,6 +135,50 @@ TTF_Font* ContentManager::get_font(const char* name) {
     auto it = fonts.find(name);
 
     if (it != fonts.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
+Mix_Music* ContentManager::load_music(const char* filename, const char* name) {
+    Mix_Music* m = Mix_LoadMUS(filename);
+
+    if (!m) {
+        LOG("failed to open music file: " << filename);
+        return nullptr;
+    }
+    LOG("loaded music: " << filename);
+
+    music[name] = m;
+
+    return m;
+}
+
+Mix_Music* ContentManager::get_music(const char* name) {
+    auto it = music.find(name);
+    if (it != music.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
+Mix_Chunk* ContentManager::load_sound_fx(const char* filename, const char* name) {
+    Mix_Chunk* c = Mix_LoadWAV(filename);
+
+    if (!c) {
+        LOG("failed to open music file: " << filename);
+        return nullptr;
+    }
+    LOG("loaded sound fx: " << filename);
+
+    sound_fx[name] = c;
+
+    return c;
+}
+
+Mix_Chunk* ContentManager::get_sound_fx(const char* name) {
+    auto it = sound_fx.find(name);
+    if (it != sound_fx.end()) {
         return it->second;
     }
     return nullptr;

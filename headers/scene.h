@@ -5,14 +5,13 @@
 #include "scenemanager.h"
 #include "contentmanager.h"
 #include "eventhandler.h"
+#include "musicplayer.h"
+#include "app.h"
 
 class IScene {
     public:
         IScene(
-            SDL_Renderer* renderer_ptr, 
-            SceneManager* sm, 
-            ContentManager* cm,
-            EventHandler* eh
+            App* app
         );
         virtual ~IScene();
         virtual void on_load() = 0;
@@ -23,8 +22,10 @@ class IScene {
         SceneManager* sm;
         ContentManager* cm;
         EventHandler* eh;
+        MusicPlayer* mp;
         SDL_Texture* texture;
         SDL_Renderer* renderer_ptr;
+        App* app;
 };
 
 #endif

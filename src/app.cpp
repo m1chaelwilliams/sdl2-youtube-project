@@ -1,4 +1,6 @@
 #include "app.h"
+#include "debugutils.h"
+#include "scene.h"
 
 #define INIT_SUCCESS true
 #define INIT_FAIL false
@@ -44,7 +46,7 @@ int App::run() {
 // don't touch !!!
 
 bool App::init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         return INIT_FAIL;
     }
 
@@ -53,6 +55,10 @@ bool App::init() {
     }
 
     if (TTF_Init() < 0) {
+        return INIT_FAIL;
+    }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         return INIT_FAIL;
     }
 
@@ -117,4 +123,8 @@ App::~App() {
     TTF_Quit();
 
     LOG("Quit SDL2_TTF");
+
+    Mix_CloseAudio();
+
+    LOG("Quit SDL2_Mixer");
 }
