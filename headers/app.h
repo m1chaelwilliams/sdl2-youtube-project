@@ -11,27 +11,45 @@
 #include "contentmanager.h"
 #include "musicplayer.h"
 
-
 namespace se {
     class IApp {
         private:
             bool running;
             int width, height;
+            int x, y;
             const char* title;
+            SDL_Surface* icon_surface;
 
+            bool app_initialized;
             bool init();
+            bool create_display();
+            bool create_renderer();
+        public:
+            void resize(int width, int height);
+            void set_title(const char* title);
+            void set_icon(const char* filename);
+            void set_window_position(int x, int y);
+            void center_window();
+
+            int get_width() const;
+            int get_height() const;
+            int get_window_pos_x() const;
+            int get_window_pos_y() const;
+            const char* get_title() const;
+
+            void close();
         protected:
             virtual void on_load() = 0;
             virtual void on_unload() = 0;
             virtual void on_update() = 0;
             virtual void on_draw() = 0;
-
-            void close();
         public:
             IApp(
                 int width = 600,
                 int height = 400,
-                const char* title = "App"
+                const char* title = "App",
+                int window_pos_x = SDL_WINDOWPOS_CENTERED,
+                int window_pos_y = SDL_WINDOWPOS_CENTERED
             );
             ~IApp();
             int run();

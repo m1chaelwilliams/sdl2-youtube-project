@@ -39,6 +39,8 @@ void ContentManager::free_all() {
 
         Mix_FreeChunk(c.second);
     }
+
+    LOG("FREED ALL CONTENT FROM CONTENTMANAGER");
 }
 
 SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, SDL_Surface* surf, const char* name, bool free_surf) {
