@@ -20,7 +20,7 @@ This will produce a "libse.a" file in "build".
 I strongly recommend using a debug build when writing your game.
 Download all the dependencies and set them up accordingly.
 
-A typicall folder structure would look like:
+A typical folder structure would look like:
 
 ```
 .
@@ -53,7 +53,7 @@ Depending on your project structure, this command can vary quite a bit. As long 
 <compiler> <source file(s)> -o <project name> <include dir> <lib dir> <libs>
 ```
 
-**NOTE** against the static lib **first**, before any of the other libraries.
+**NOTE** Link against the static lib `libse.a` **first**, before any of the other libraries.
 
 # Documentation (WIP)
 

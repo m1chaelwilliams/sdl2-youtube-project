@@ -34,14 +34,14 @@ Called every frame during main lifetime.
 As mentioned before, the `IApp` class takes care of the initialization, maintainence, and destruction.
 
 #### - Construction
-    - Does nothing as of right now
+        - Does nothing as of right now
 #### - Lazy initialization
-    - Calls `run` method in charge of executing program
-    - intializes dependencies
-    - calls `on_load`
-    - enters game loop
-    - calls `update` and `draw` (and other minor tasks) every frame
-    - calls `on_unload`
+        - Calls `run` method in charge of executing program
+        - intializes dependencies
+        - calls `on_load`
+        - enters game loop
+        - calls `update` and `draw` (and other minor tasks) every frame
+        - calls `on_unload`
 #### - Destructs
-    - Frees dynamically allocated resources from `ContentManager`
-    - quits all dependencies
+        - Frees dynamically allocated resources from `ContentManager`
+        - quits all dependencies
