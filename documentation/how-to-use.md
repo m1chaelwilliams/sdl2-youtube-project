@@ -140,3 +140,20 @@ SDL_RenderClear(renderer_ptr);
 
 SDL_RenderPresent(renderer_ptr);
 ```
+Load a texture!
+
+```cpp
+content_manager->load_texture("filename.png", "alias");
+```
+Create a Sprite!
+```cpp
+se::Sprite sprite(
+    content_manager.get_texture("alias"),
+    SDL_Rect{0,0,100,200},
+    SDL_Rect{0,0,8,16}
+    );
+```
+Use your sprite!
+```cpp
+sprite.draw(renderer_ptr);
+```
