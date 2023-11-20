@@ -2,6 +2,8 @@
 
 #include "debugutils.h"
 
+using namespace se::managers;
+
 EventHandler::EventHandler() {}
 EventHandler::~EventHandler() {
     LOG("Destructing EventHandler...");

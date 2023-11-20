@@ -3,6 +3,9 @@
 
 #include "debugutils.h"
 
+using namespace se;
+using namespace se::managers;
+
 SceneManager::SceneManager() {}
 SceneManager::~SceneManager() {
 

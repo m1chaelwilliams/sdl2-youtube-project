@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 
-bool intersects(const SDL_Rect& rect1, const SDL_Rect& rect2);
+namespace se {
+    bool intersects(const SDL_Rect& rect1, const SDL_Rect& rect2);
+}
 
 #endif

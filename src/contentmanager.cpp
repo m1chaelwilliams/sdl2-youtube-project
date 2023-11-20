@@ -2,6 +2,8 @@
 
 #include "debugutils.h"
 
+using namespace se::managers;
+
 ContentManager::~ContentManager() {
     LOG("Destructing ContentManager...");
 }
@@ -12,7 +14,7 @@ void ContentManager::free_all() {
 
     for (auto& texture : textures) {
 
-        LOG("Destroying texture: " << texture.second);
+        LOG("Destroying texture: " << texture.first);
 
         SDL_DestroyTexture(texture.second);
     }

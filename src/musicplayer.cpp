@@ -1,6 +1,8 @@
 #include "musicplayer.h"
 #include "debugutils.h"
 
+using namespace se::managers;
+
 MusicPlayer::MusicPlayer() {
     front = nullptr;
     volume = MIX_MAX_VOLUME / 2;

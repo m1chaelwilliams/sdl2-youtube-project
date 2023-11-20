@@ -2,14 +2,18 @@
 #include "debugutils.h"
 #include "scene.h"
 
+using namespace se;
+using namespace se::managers;
+
+
 #define INIT_SUCCESS true
 #define INIT_FAIL false
 
-void App::close() {
+void IApp::close() {
     running = false;
 }
 
-int App::run() {
+int IApp::run() {
     LOG("Initializing...");
 
     if (!init()) {
@@ -27,8 +31,14 @@ int App::run() {
     LOG("Enter main loop...");
 
     while (running) {
-        update();
-        draw();
+        // polling events and checking quit request
+        event_handler.poll_events();
+        if (event_handler.is_close_requested()) {
+            close();
+        }
+
+        on_update();
+        on_draw();
     }
 
     LOG("Exiting main loop...");
@@ -45,7 +55,7 @@ int App::run() {
 
 // don't touch !!!
 
-bool App::init() {
+bool IApp::init() {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         return INIT_FAIL;
     }
@@ -88,7 +98,7 @@ bool App::init() {
     return INIT_SUCCESS;
 }
 
-App::App(
+IApp::IApp(
     int width,
     int height,
     const char* title
@@ -104,11 +114,11 @@ App::App(
     LOG("App constructed!");
 }
 
-App::~App() {
+IApp::~IApp() {
     LOG("--------------------");
     LOG("App Destructing...");
 
-    cm.free_all();
+    content_manager.free_all();
 
     SDL_DestroyRenderer(renderer_ptr);
     SDL_DestroyWindow(window_ptr);
