@@ -7,8 +7,6 @@ OBJ = $(patsubst src/%.cpp, $(OUTPUTDIR)/objects/%.o, $(SRC))
 CC = g++
 
 INCLUDE_DIRS = -Iinclude -Iheaders
-LIB_DIR = -Llib
-LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 CFLAGS =
 

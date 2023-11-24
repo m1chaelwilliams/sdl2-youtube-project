@@ -86,6 +86,34 @@ SDL_Texture* ContentManager::load_texture(SDL_Renderer* renderer_ptr, const char
     return texture;
 }
 
+se::TextureData ContentManager::load_texture_data(
+    SDL_Renderer* renderer_ptr, 
+    const char* filename, 
+    const char* name
+) 
+{
+    se::TextureData data;
+
+    SDL_Surface* surf = IMG_Load(filename);
+
+    const char* key = "";
+
+    if (name) {
+        key = name;
+    } else {
+        key = filename;
+    }
+
+    data.w = surf->w;
+    data.h = surf->h;
+
+    data.texture_data = load_texture(renderer_ptr, surf, key);
+
+    SDL_FreeSurface(surf);
+
+    return data;
+}
+
 SDL_Texture* ContentManager::get_texture(const char* key) {
     auto it = textures.find(key);
     if (it != textures.end()) {

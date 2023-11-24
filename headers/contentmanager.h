@@ -7,6 +7,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <map>
 #include <string>
+#include "textureutils.h"
 
 namespace se::managers {
     class ContentManager {
@@ -25,6 +26,12 @@ namespace se::managers {
                 const char* filename,
                 bool free_surf = false
             );
+            se::TextureData load_texture_data(
+                SDL_Renderer* renderer_ptr, 
+                const char* filename,
+                const char* name = ""
+            );
+            
             SDL_Texture* get_texture(const char* key);
             SDL_Rect get_rect(const char* filename);
 

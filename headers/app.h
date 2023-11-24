@@ -19,6 +19,10 @@ namespace se {
             int x, y;
             const char* title;
             SDL_Surface* icon_surface;
+            Uint32 window_flags;
+
+            SDL_Window* window_ptr;
+            SDL_Renderer* renderer_ptr;
 
             bool app_initialized;
             bool init();
@@ -31,42 +35,47 @@ namespace se {
             void set_window_position(int x, int y);
             void center_window();
 
-            int get_width() const;
-            int get_height() const;
-            int get_window_pos_x() const;
-            int get_window_pos_y() const;
-            const char* get_title() const;
-
+            int run();
             void close();
         protected:
             virtual void on_load() = 0;
             virtual void on_unload() = 0;
             virtual void on_update() = 0;
             virtual void on_draw() = 0;
+            void sync_fps(int fps);
         public:
             IApp(
                 int width = 600,
                 int height = 400,
                 const char* title = "App",
                 int window_pos_x = SDL_WINDOWPOS_CENTERED,
-                int window_pos_y = SDL_WINDOWPOS_CENTERED
+                int window_pos_y = SDL_WINDOWPOS_CENTERED,
+                Uint32 window_flags = SDL_WINDOW_SHOWN
             );
             ~IApp();
-            int run();
+            
 
-            managers::SceneManager* get_scene_manager() {return &scene_manager;}
-            managers::ContentManager* get_content_manager() {return &content_manager;}
-            managers::EventHandler* get_event_handler() {return &event_handler;}
-            managers::MusicPlayer* get_music_player() {return &music_player;}
-            SDL_Renderer* get_renderer() {return renderer_ptr;}
+            int get_width() const;
+            int get_height() const;
+            int get_window_pos_x() const;
+            int get_window_pos_y() const;
+            const char* get_title() const;
+
+            managers::SceneManager* get_scene_manager();
+            managers::ContentManager* get_content_manager();
+            managers::EventHandler* get_event_handler();
+            managers::MusicPlayer* get_music_player();
+            SDL_Renderer* get_renderer() const;
+            SDL_Window* get_window() const;
         protected:
-            SDL_Window* window_ptr;
-            SDL_Renderer* renderer_ptr;
-
             managers::SceneManager scene_manager;
             managers::ContentManager content_manager;
             managers::EventHandler event_handler;
             managers::MusicPlayer music_player;
+        private:
+            // fps stuff
+            Uint64 begin_time;
+            Uint64 end_time;
     };
 }
 

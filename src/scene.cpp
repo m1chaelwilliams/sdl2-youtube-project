@@ -4,9 +4,7 @@
 
 using namespace se;
 
-IScene::IScene(
-    IApp* app
-) : app(app)
+IScene::IScene()
 {
     LOG("Scene object created!");
 }

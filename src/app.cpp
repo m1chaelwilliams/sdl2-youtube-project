@@ -31,6 +31,8 @@ int IApp::run() {
     LOG("Enter main loop...");
 
     while (running) {
+        begin_time = SDL_GetPerformanceCounter();
+
         // polling events and checking quit request
         event_handler.poll_events();
         if (event_handler.is_close_requested()) {
@@ -81,7 +83,7 @@ bool IApp::create_display() {
         y,
         width,
         height,
-        SDL_WINDOW_SHOWN
+        window_flags
     );
 
     if (!window_ptr) {
@@ -108,7 +110,8 @@ IApp::IApp(
     int height,
     const char* title,
     int window_pos_x,
-    int window_pos_y
+    int window_pos_y,
+    Uint32 window_flags
 )
 :   width(width),
     height(height),
@@ -119,7 +122,8 @@ IApp::IApp(
     app_initialized(false),
     x(window_pos_x),
     y(window_pos_y),
-    icon_surface(nullptr)
+    icon_surface(nullptr),
+    window_flags(window_flags)
 {
     LOG("--------------------");
     LOG("App constructed!");
@@ -192,7 +196,12 @@ void IApp::set_title(const char* title) {
 }
 
 void IApp::set_window_position(int x, int y) {
-    SDL_SetWindowPosition(window_ptr, x, y);
+    this->x = x;
+    this->y = y;
+
+    if (app_initialized) {
+        SDL_SetWindowPosition(window_ptr, this->x, this->y);
+    }
 }
 
 void IApp::center_window() {
@@ -204,3 +213,20 @@ int IApp::get_height() const {return height;}
 int IApp::get_window_pos_x() const {return x;}
 int IApp::get_window_pos_y() const {return y;}
 const char* IApp::get_title() const {return title;}
+
+managers::SceneManager* IApp::get_scene_manager() {return &scene_manager;}
+managers::ContentManager* IApp::get_content_manager() {return &content_manager;}
+managers::EventHandler* IApp::get_event_handler() {return &event_handler;}
+managers::MusicPlayer* IApp::get_music_player() {return &music_player;}
+
+SDL_Renderer* IApp::get_renderer() const {return renderer_ptr;}
+SDL_Window* IApp::get_window() const {return window_ptr;}
+
+// fps stuff
+void IApp::sync_fps(int fps) {
+    end_time = SDL_GetPerformanceCounter();
+
+    float elapsed_time = (end_time - begin_time) / (float)SDL_GetPerformanceFrequency();
+
+    SDL_Delay(1000 / fps - elapsed_time);
+}
